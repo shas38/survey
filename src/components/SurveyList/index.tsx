@@ -3,6 +3,7 @@ import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import API from '../../utils/API';
@@ -43,7 +44,9 @@ function SurveyList({ handleSurveySelection }: Props) {
                 }}
                 button
               >
-                <ListItemText style={{ textAlign: 'center' }} primary={survey.name} />
+                <ListItemText style={{ textAlign: 'center', fontWeight: 'bold' }}>
+                  <Typography variant='h4'>{survey.name}</Typography>
+                </ListItemText>
               </ListItem>
             );
           })}
