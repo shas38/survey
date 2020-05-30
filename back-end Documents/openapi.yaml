@@ -1,0 +1,136 @@
+openapi: 3.0.0
+info:
+  title: Simple Survey API
+  description: This is a simple API
+  contact:
+    email: you@your-company.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0-oas3
+servers:
+- url: https://virtserver.swaggerhub.com/Shahriar27/survey/1.0.0
+tags:
+- name: admins
+  description: Secured Admin-only calls
+- name: developers
+  description: Operations available to regular developers
+paths:
+  /surveys:
+    get:
+      tags:
+      - developers
+      summary: get surveys
+      description: |
+        By passing in the appropriate options, you can search for
+        available surveys in the system
+      operationId: getSurveys
+      responses:
+        "200":
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/surveyList'
+        "400":
+          description: bad input parameter
+  /survey:
+    get:
+      tags:
+      - developers
+      summary: get a specific survey
+      description: |
+        By passing in the appropriate options, you can search for
+        available survey in the system
+      operationId: getSurvey
+      parameters:
+      - name: id
+        in: query
+        description: pass the id string for looking up survey
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/surveyDetail'
+        "400":
+          description: bad input parameter
+        "404":
+          description: not found
+components:
+  schemas:
+    surveyList:
+      required:
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        name:
+          type: string
+          example: Survey 1
+    surveyDetail:
+      required:
+      - id
+      - name
+      - questions
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        name:
+          type: string
+          example: Survey 1
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/surveyDetail_questions'
+    surveyDetail_options:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        text:
+          type: string
+          example: "1"
+    surveyDetail_questions:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        createdBy:
+          type: string
+          example: Elisabeth Winters
+        createdDateTime:
+          type: string
+          example: Fri, 22 May 2020 01:11:00 GMT
+        title:
+          type: string
+          example: How many astronauts landed on the moon?
+        subTitle:
+          type: string
+          format: uuid
+        questionType:
+          type: number
+          example: 3
+        options:
+          type: array
+          items:
+            $ref: '#/components/schemas/surveyDetail_options'
